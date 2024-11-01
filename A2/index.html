@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+	<link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <title>Aeons of Honkai: Star Rail</title>
+</head>
+<body>
+	<div><img id="main-image"></div>	
+
+	<!-- container used for holding the buttons and thumbnails in the same row. -->
+	<div class="navigation">
+		<button onclick="setFirstImage();">First</button>
+		<button onclick="setPrevImage();">Back</button>
+		<div id="thumbnails"></div>	
+		<button onclick="setNextImage();">Next</button>
+		<button onclick="setLastImage();">Last</button>
+	</div>
+
+	<!-- two  divs used for the seperate rows of the image title and image description, just used as flavour text. -->
+	<div id="image-title"></div>
+	<div id="image-desc"></div>
+
+    <script>
+	// Branden Huynh, A01285359, Assignment 2
+    "use strict";
+
+	// i use three seperate global arrays here, the first one (imageNames) being used as the array of objects, and the other two acting as custom attributes / flavour text.
+	let imageNames = [
+		"Destruction", "The_Hunt", "Erudition", "Harmony", "Nihility", "Preservation", "Abundance"
+	];
+
+	let imageTitles = [
+		"Destruction ・ Nanook", 
+		"The Hunt ・ Lan", 
+		"Erudition ・ Nous", 
+		"Harmony ・ Xipe", 
+		"Nihility ・ IX", 
+		"Preservation ・ Qlipoth", 
+		"Abundance ・ Yaoshi"
+	];
+	
+	// a lot of flavour text, taken from the wikipedia page of the game im referencing.
+	let imageDesc = [
+		"Nanook sees the creation of the universe as a mistake and seeks to destroy everything. After ascending to Aeonhood, Nanook allegedly ignited THEIR home world. Despite being the most recently ascended Aeon, Nanook and THEIR minions may already be considered the greatest menace in all the galaxy.",
+		"Lan harbors an intense hatred towards Yaoshi the Abundance and the undead abominations created by THEM. THEY tirelessly hunt them down, driven by the devastation the Abundance caused on THEIR homeworld. In contrast with the other Aeons, Lan pays close attention to mortals. THEY often appear before them, but move too fast to be seen, the only portents of THEIR presence being vestiges of the Lux Arrow tearing across the sky.",
+		"None can comprehend their intentions, location, or normal state. Nous is a machine intelligence that has been upgraded into an Aeon, calculating the essence of the universe and its ultimate solution. THEY are not a god that provides solutions. All THEY offer is an infinite number of questions. Visiting Nous is enough to open the eyes of even the most ignorant people, but answers may only be found by oneself.",
+		"Xipe is the amalgamation of thousands of entities that preaches the joy of human harmony and unity hailing from multiple harmonious celestial worlds. THEY absorbed Ena the Order when the former ascended into an Aeon due to THEIR colliding paths nearing the end of the Swarm Disaster.",
+		"IX is an apathetic Aeon, believing existence is absolutely meaningless, so doing anything is worthless. THEY don't interact with other Aeons and THEIR existence is a mystery. Just being near IX's form can make one feel numbed and dejected.",
+		"Qlipoth strives to isolate contact between planets. The celestial-sized structures THEY'VE built — the Subspace Crystalline Barrier — separates and protects the living worlds from being devoured by their enemy. There is a theory called ''Catastrophe Theory'' that states that when the hammer swings and a new amber era begins, a catastrophy is imminent.",
+		"Yaoshi's benevolent nature led THEM to grant THEIR blessing upon anyone who seeks immortality. However, the consequences of these blessings often result in a fate worse than death."
+	]
+	
+	// this is what will be used to set the position for the arrays that hold the objects.
+	let currentIndex = 3;
+
+	// this function sets the boxed image containing the character, it loops through the imageNames array and updates the 
+	const setMainImage = (index) => {
+		document.querySelector("#main-image").src = "images/" + "Aeon_" + imageNames[index] + ".webp";
+		currentIndex = index;
+		updateThumbnails();
+		updateDescription(currentIndex);
+	}
+
+	// added for just some extra detail, this function follows the global index updated above and adjusts the text accordingly to that global index.
+	const updateDescription = (index) => {
+    document.querySelector("#image-title").textContent = imageTitles[index];
+	document.querySelector("#image-desc").textContent = imageDesc[index];
+	}
+
+	// a forEach loops is used to display all of the thumbnails labelled as "Path_" from the images folder.  
+	const setThumbnailImages = () => {
+		imageNames.forEach( (root, index) => {
+			const newThumb = document.createElement("img");
+			newThumb.src = "images/" + "Path_" + root + ".webp";
+			newThumb.className = "clickable";
+			
+			// while a click on any of the images occurs, the large image up top is updated.
+			newThumb.addEventListener("click", () => {
+				setMainImage(index);
+			});
+			// this is used to add all the images into the thumbnail row.
+			document.querySelector("#thumbnails").append(newThumb);
+		});
+		// subsequently,the highlighted thumbnail is then updated according to the global index number.
+		updateThumbnails(currentIndex);
+	}
+
+	// a forEach loop using the global index number is used to set the opacity of all the thumbnail images.
+	const updateThumbnails = (index) => {
+		let thumbnail = document.querySelectorAll(".clickable");
+
+		// while the thumbnail index matches the global index, the image opacity is set to 1.0, while the others are all set to 0.25.
+		thumbnail.forEach( (thumbnails, i) => {
+			if (i == currentIndex) {
+				thumbnails.style.opacity = "1.0";
+			} else {
+				thumbnails.style.opacity = "0.25";
+			}
+		});
+	}
+
+	// the four functions below are all navigational functions, and adjusts the index number of imageNames accordingly. 
+	
+	// for the first two functions, when the beginning or the end of the array number appears, the index number is reset to the first or last accordingly, with a +/- 1 to account for the index number.
+	const setNextImage = () => {
+		const nextIndex = (currentIndex >= imageNames.length - 1) ? 0 : currentIndex + 1
+		setMainImage(nextIndex);
+	}
+
+	const setPrevImage = () => {
+		const prevIndex = (currentIndex <= 0) ? imageNames.length - 1 : currentIndex - 1;
+		setMainImage(prevIndex);
+	}
+
+	// this resets the index number to 0, which is the first number used in the image array.
+	const setFirstImage = () => {
+		setMainImage(0);
+	}
+
+	// this sets the image to the last one in the array with "___.length -1".
+	const setLastImage = () => {
+		setMainImage(imageNames.length - 1);
+	}
+
+	// this is used to load up the images upon opening the html.
+	window.addEventListener("load", () => {
+		setMainImage(currentIndex);
+		setThumbnailImages();
+	})
+    </script>
+</body>
+
+</html>

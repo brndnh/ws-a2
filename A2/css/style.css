@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Ropa+Sans:ital@0;1&display=swap');
+
+body {
+    font-family: "Ropa Sans", sans-serif;
+    font-size: 24px;
+    color: white;
+    background-color: #1a1a21;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* adjustments for the thumbnail strip. */
+.navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* adjustments for the buttons used */
+.navigation button {
+    background-color: #bf9b7a;
+    font-family: "Ropa Sans", sans-serif;
+    text-decoration: none;
+    border-radius: 2px;
+    border: none;
+    font-size: 20px;
+    padding: 15px 30px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+/* flavour text alignment and minor adjustments */
+#image-title {
+    font-size: larger;
+    font-weight: bolder;
+    text-align: center;
+    margin: 5px;
+}
+
+#image-desc {
+    font-size: large;
+    text-align: center;
+    width: 700px;
+    margin: 0 auto;
+}
+
+/* styling for the main image */
+#main-image {
+    display: block;
+    margin: 0 auto;
+    width: 620px;
+    height: auto;
+    border-radius: 20px;
+    border: 4px solid #bf9b7a;
+    background-color: #131318;
+}
+
+/* styling for the thumbnails */
+#thumbnails {
+    display: flex;
+    text-align: center;
+    gap: 4px;
+    margin: 10px;
+}
+
+#thumbnails img {
+    max-width: 75px;
+    height: auto;
+    margin: 5px;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: border-color 0.25s ease-in-out;
+    border-radius: 10px;
+}
+
+#thumbnails img:hover {
+    border-color: #bf9b7a;
+}
